@@ -1,11 +1,11 @@
 import React from 'react'
-import { Wrapper, Title, Array } from './ShoppingList.styles'
+import { Wrapper, Title, Array, Button } from './ShoppingList.styles'
 import Checkbox from '../../shared/Checkbox'
 
-function ShoppingList ({ title, products, onToggle }) {
+function ShoppingList({ title, products, onToggle }) {
   return <Wrapper>
     <Title>
-      { title }:
+      {title}:
     </Title>
     <Array>
       {
@@ -19,6 +19,10 @@ function ShoppingList ({ title, products, onToggle }) {
         )
       }
     </Array>
+    <Button as="button"
+      onClick={() => alert('It works!')}>
+      Excluir
+    </Button>
   </Wrapper>
 }
 
