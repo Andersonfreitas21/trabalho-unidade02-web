@@ -13,14 +13,6 @@ export const Title = styled.h2`
 `
 
 export const Array = styled.div`
-  height: 424px;
+  height: 370px;
   overflow-y: auto;
-`
-
-export const Button = styled.button`
-  background: #004D61;
-  border-radius: 3px;
-  border: none;
-  color: white;
-  align-content: center;
 `
