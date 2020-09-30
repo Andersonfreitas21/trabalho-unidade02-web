@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from './style';
+import { Button } from './Button.style';
 
 export default function ({ title, onClick }) {
   return (

@@ -11,10 +11,13 @@ import api from '../../services/api';
 function App() {
   const colors = ['#62CBC6', '#00ABAD', '#00858C', '#006073', '#004D61'];
 
+  // Usando o State do Hook
+  // Declarar uma nova variável de state, na qual chamaremos de "products" , "selectedProducts" , "totalPrice"
   const [products, setProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
+  // Função para consultar na api fake json-server para obter e listar os produtos
   const loadProducts = async () => {
     try {
       const { data } = await api.get('/products');
@@ -30,13 +33,14 @@ function App() {
     loadProducts();
   }, []);
 
-  // monitora o estado do produto para marcar o checkbox
+  // Monitora o estado do produto para marcar o checkbox
   useEffect(() => {
     const newSelectedProducts = products.filter((product) => product.checked);
 
     setSelectedProducts(newSelectedProducts);
   }, [products]);
 
+  // Monitora o estado dos produtos selecionados e percorre a lista somando os valores de cada produto
   useEffect(() => {
     const total = selectedProducts
       .map((product) => product.price)
@@ -45,6 +49,7 @@ function App() {
     setTotalPrice(total);
   }, [selectedProducts]);
 
+  // Função que alterna entre os produtos selecionados no checkbox
   function handleToggle(id) {
     const newProducts = products.map((product) =>
       product.id === id ? { ...product, checked: !product.checked } : product
@@ -52,15 +57,16 @@ function App() {
     setProducts(newProducts);
   }
 
+  // Método que retorna o status da requisição ao remover um produto por id na API fake json-server
   const anAsyncFunction = async (id) => {
     const { status } = await api.delete(`products/${id}`);
     if (status !== 200) {
       throw new Error('Erro na conexão com o backend.');
     }
-
     return status;
   };
 
+  // Método que recebe uma lista de produtos para deletar
   function removeByList(productsItems) {
     return Promise.all(
       productsItems.map(async (item) => {
@@ -72,12 +78,15 @@ function App() {
 
   const handleDelete = async () => {
     try {
+      // Verifica se o produto está selecionado
       const productsIsChecked = products.filter(
         (product) => product.checked === true
       );
 
+      // Remove a lista de produtos selecionados
       await removeByList(productsIsChecked);
 
+      // Seta o estado dos novos produtos na grid principal
       const newProducts = products.filter(
         (product) => product.checked !== true
       );
@@ -112,10 +121,10 @@ function App() {
           }
           right={
             <div>
-              estatisticas
+              Estatisticas
               <LineChart
                 color={colors[0]}
-                title="saudavel"
+                title="Saudável"
                 percentage={extractPercentage(
                   selectedProducts.length,
                   selectedProducts.filter((product) =>
@@ -125,7 +134,7 @@ function App() {
               />
               <LineChart
                 color={colors[1]}
-                title="nao tao saudavel"
+                title="Não tão saudável"
                 percentage={extractPercentage(
                   selectedProducts.length,
                   selectedProducts.filter((product) =>
@@ -135,7 +144,7 @@ function App() {
               />
               <LineChart
                 color={colors[2]}
-                title="limpeza"
+                title="Limpeza"
                 percentage={extractPercentage(
                   selectedProducts.length,
                   selectedProducts.filter((product) =>
@@ -145,7 +154,7 @@ function App() {
               />
               <LineChart
                 color={colors[3]}
-                title="outros"
+                title="Outros"
                 percentage={extractPercentage(
                   selectedProducts.length,
                   selectedProducts.filter((product) =>
@@ -155,7 +164,7 @@ function App() {
               />
               <div style={{ marginTop: 12 }}>
                 <h2 style={{ fontWeight: 400, fontSize: 12, color: '#00364A' }}>
-                  previsão de gastos:
+                  Previsão de gastos:
                 </h2>
                 <div style={{ fontSize: 24 }}>
                   {totalPrice.toLocaleString('pt-br', {

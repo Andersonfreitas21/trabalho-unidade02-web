@@ -8,6 +8,7 @@ export const Wrapper = styled.div`
   background-image: url(${bg});
   background-size: auto;
   background-position: center center;
+  background-attachment: fixed;
 
   display: flex;
   justify-content: center;
